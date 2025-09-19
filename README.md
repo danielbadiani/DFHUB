@@ -1,3 +1,55 @@
+-- DFHUB.lua atualizado - Teste de execução e compatibilidade Delta/Hydrogen/Fluxus
+print("[DFHUB] Script carregado com sucesso!")
+
+-- Notificação para Roblox (se possível)
+local StarterGui = game:GetService("StarterGui")
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "DFHUB",
+        Text = "Script carregado com sucesso!",
+        Duration = 5
+    })
+end)
+
+-- Detectar exploit (Delta, Hydrogen, Synapse, Fluxus, etc)
+local exploit = "Desconhecido"
+pcall(function()
+    if identifyexecutor then
+        exploit = identifyexecutor()
+    elseif getexecutorname then
+        exploit = getexecutorname()
+    elseif syn then
+        exploit = "Synapse X"
+    elseif isexecutorclosure then
+        exploit = "Krnl"
+    elseif is_fluxus_closure or fluxus then
+        exploit = "Fluxus"
+    elseif is_hydrogen then
+        exploit = "Hydrogen"
+    elseif pebc_execute then
+        exploit = "ProtoSmasher"
+    end
+end)
+print("[DFHUB] Executor detectado: " .. tostring(exploit))
+
+-- Testar carregamento de bibliotecas externas
+local function testLib(url, nome)
+    local ok, result = pcall(function()
+        return loadstring(game:HttpGet(url))()
+    end)
+    if not ok then
+        warn("[DFHUB] Falha ao carregar biblioteca externa: " .. nome .. " (" .. url .. ")")
+    else
+        print("[DFHUB] Biblioteca '" .. nome .. "' carregada com sucesso.")
+    end
+    return result
+end
+
+-- Testar Fluent UI
+testLib("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua", "Fluent UI")
+-- Testar OrionLib
+testLib("https://raw.githubusercontent.com/shlexware/Orion/main/source", "OrionLib")
+
 local exploit = getexecutorname or identifyexecutor
 local support = {
     ["Fluxus"] = true,
@@ -7610,3 +7662,5 @@ local Getkey = Tabs.KeySys:AddButton({
 })
 
 Window:SelectTab(1)
+
+-- Fim do script de teste
